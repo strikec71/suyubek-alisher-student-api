@@ -7,3 +7,8 @@ backups/
 .idea/
 *.iml
 .gradle-ci/
+
+._*
+.DS_Store
+logs/*
+!logs/.gitkeep
