@@ -1,0 +1,9 @@
+.gradle/
+build/
+.env
+*.log
+backups/
+*log_analysis.txt
+.idea/
+*.iml
+.gradle-ci/
