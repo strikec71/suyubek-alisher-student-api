@@ -1,7 +1,7 @@
 # Suyubek Alisher Student API
 
 Student: Suyubek Alisher | IT2-2306 | Student ID 37773.
-Documentation status: Suyubek Alisher main branch explains deployment.
+Documentation status: Suyubek Alisher documents CRUD routes, validation and deployment together.
 
 Spring Boot 3.5.7, Java 21, Gradle wrapper 8.14.3, PostgreSQL 17.
 
