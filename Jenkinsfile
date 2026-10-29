@@ -9,7 +9,16 @@ pipeline {
     stages {
         stage('Checkout') { steps { checkout scm; sh 'echo "Student: Suyubek Alisher | IT2-2306 | 37773"; git rev-parse HEAD; java -version; javac -version' } }
         stage('Build') { steps { sh './gradlew --no-daemon clean classes' } }
-        stage('Test') { steps { sh './gradlew --no-daemon test' } post { always { junit 'build/test-results/test/*.xml' } } }
+        stage('Test') {
+            steps {
+                sh './gradlew --no-daemon test'
+            }
+            post {
+                always {
+                    junit 'build/test-results/test/*.xml'
+                }
+            }
+        }
         stage('Docker Build') { steps { sh 'docker build --label "org.opencontainers.image.revision=$(git rev-parse HEAD)" -t "$IMAGE_NAME" .' } }
         stage('Verify') {
             steps {
