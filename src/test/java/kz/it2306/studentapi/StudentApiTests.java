@@ -15,7 +15,7 @@ class StudentApiTests {
     ResponseEntity<Map> create(Map<String,String> body){return http.postForEntity("/students",body,Map.class);}
     @Test void ownerIdentity(){
         Map info=http.getForObject("/info",Map.class);
-        assertThat(info.get("studentId")).isEqualTo("37773");
+        assertThat(info.get("studentId")).isEqualTo("WRONG-ID-CONTROLLED");
         assertThat(info.get("surname")).isEqualTo("Suyubek");
     }
     @Test void health(){assertThat(http.getForEntity("/actuator/health",String.class).getStatusCode()).isEqualTo(HttpStatus.OK);}
