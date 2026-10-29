@@ -1,0 +1,36 @@
+name: suyubek-alisher-student-api
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-student_api}
+      POSTGRES_USER: ${DB_USER:-student_api}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in a private .env}
+    volumes:
+      - student_data:/var/lib/postgresql/data
+    networks: [student_net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  app:
+    build: .
+    image: suyubek-alisher-student-api:v1.0-suyubek-alisher-37773
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME:-student_api}
+      DB_USER: ${DB_USER:-student_api}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+    ports: ["127.0.0.1:8081:8080"]
+    networks: [student_net]
+    depends_on:
+      db: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/actuator/health >/dev/null || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+volumes:
+  student_data:
+networks:
+  student_net:
