@@ -12,3 +12,5 @@ backups/
 .DS_Store
 logs/*
 !logs/.gitkeep
+
+verified-image.json
