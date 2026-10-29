@@ -1,7 +1,7 @@
 # Suyubek Alisher Student API
 
 Student: Suyubek Alisher | IT2-2306 | Student ID 37773.
-Documentation status: Suyubek Alisher implemented create read update delete and validation.
+Documentation status: Suyubek Alisher feature branch explains API routes.
 
 Spring Boot 3.5.7, Java 21, Gradle wrapper 8.14.3, PostgreSQL 17.
 
