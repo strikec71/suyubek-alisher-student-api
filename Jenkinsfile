@@ -11,7 +11,20 @@ pipeline {
         stage('Build') { steps { sh './gradlew --no-daemon clean classes' } }
         stage('Test') { steps { sh './gradlew --no-daemon test' } post { always { junit 'build/test-results/test/*.xml' } } }
         stage('Docker Build') { steps { sh 'docker build --label "org.opencontainers.image.revision=$(git rev-parse HEAD)" -t "$IMAGE_NAME" .' } }
-        stage('Verify') { steps { sh 'docker image inspect "$IMAGE_NAME" --format "Image={{.Id}} Size={{.Size}} Created={{.Created}} Revision={{index .Config.Labels \"org.opencontainers.image.revision\"}}"' } }
+        stage('Verify') {
+            steps {
+                sh 'docker image inspect "$IMAGE_NAME" > verified-image.json'
+                sh '''python3 - <<'PY'
+import json, subprocess
+image = json.load(open('verified-image.json'))[0]
+revision = subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+assert image['Config']['Labels']['org.opencontainers.image.revision'] == revision
+print('Verified image:',image['Id'])
+print('Size bytes:',image['Size'],'Created:',image['Created'])
+print('Source revision:',revision)
+PY'''
+            }
+        }
     }
     post { success { echo 'Suyubek Alisher Student API verification SUCCESS' } }
 }
