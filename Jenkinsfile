@@ -15,7 +15,7 @@ pipeline {
             }
             post {
                 always {
-                    junit 'build/test-results/test/*.xml'
+                    archiveArtifacts artifacts: 'build/test-results/test/*.xml', allowEmptyArchive: false
                 }
             }
         }
